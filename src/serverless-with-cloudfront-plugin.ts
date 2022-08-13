@@ -28,7 +28,6 @@ export class ServerlessWithCloudFrontPlugin {
     const awsInfo = this.serverless.pluginManager.plugins.find(
       (plugin: Plugin) => plugin.constructor.name === "AwsInfo"
     ) as any;
-    log(awsInfo);
 
     const templateRoot = path.resolve(__dirname, "..", "resource-template");
 
