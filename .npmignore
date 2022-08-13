@@ -1,5 +1,7 @@
 node_modules/
 sample/
 src/
+.circleci/
 .node-version
 tsconfig.json
+yarn.lock

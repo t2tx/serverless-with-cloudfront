@@ -16,6 +16,23 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ap-northeast-1
+
+custom:
+  withCloudFront:
+    type: http
+    domain: with-cloud-front.example.com
+    certificate: "000000"
+    headers:
+      - Accept
+      - Accept-Charset
+      - Accept-Encoding
+      - Accept-Language
+      - Authorization
+    logging:
+      bucket: "000000"
+    tags:
+      PROJECT: "project"
 
 # The `functions` block defines what code to deploy
 functions:
@@ -23,7 +40,4 @@ functions:
     handler: handler.helloWorld
     # The `events` block defines how to trigger the handler.helloWorld code
     events:
-      - http:
-          path: hello-world
-          method: get
-          cors: true
+      - httpApi: "*"
