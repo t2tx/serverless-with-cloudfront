@@ -21,16 +21,16 @@ provider:
 custom:
   withCloudFront:
     type: http
-    domain: with-cloud-front.example.com
-    certificate: "000000"
+    # domain: with-cloud-front.example.com
+    # certificate: "000000"
     headers:
       - Accept
       - Accept-Charset
       - Accept-Encoding
       - Accept-Language
       - Authorization
-    logging:
-      bucket: "000000"
+    # logging:
+    # bucket: "000000"
     tags:
       PROJECT: "project"
 
