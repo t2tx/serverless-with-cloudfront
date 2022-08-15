@@ -11,6 +11,9 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run:
+          command: yarn lint
+          name: Linter
+      - run:
           command: yarn build
           name: Build app
       - persist_to_workspace:

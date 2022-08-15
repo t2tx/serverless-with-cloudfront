@@ -1,23 +1,30 @@
-import Serverless from "serverless";
-import Plugin from "serverless/classes/Plugin";
-import { ConfigTemplate } from "./config-template";
-const { log } = require("@serverless/utils/log");
+import Serverless from 'serverless';
+import Plugin from 'serverless/classes/Plugin';
+import {ConfigTemplate} from './config-template';
 
-import path from "path";
-import _ from "lodash";
-import chalk from "chalk";
+import path from 'path';
+import _ from 'lodash';
+import chalk from 'chalk';
 
-const TAG = "[serverless-with-cloudfront]";
+// const TAG = '[serverless-with-cloudfront]';
+
+interface Injects {
+  log: any;
+}
 
 export class ServerlessWithCloudFrontPlugin {
-  hooks: { [key: string]: Function };
-  cnameDomain: string = "-";
+  hooks: {[key: string]: () => void};
+  cnameDomain = '-';
 
-  constructor(private readonly serverless: Serverless) {
+  constructor(
+    private readonly serverless: Serverless,
+    private readonly _: Serverless.Options,
+    private injects: Injects,
+  ) {
     this.hooks = {
-      "before:package:createDeploymentArtifacts":
+      'before:package:createDeploymentArtifacts':
         this.createDeploymentArtifacts.bind(this),
-      "aws:info:displayStackOutputs": this.printSummary.bind(this),
+      'aws:info:displayStackOutputs': this.printSummary.bind(this),
     };
   }
 
@@ -25,15 +32,15 @@ export class ServerlessWithCloudFrontPlugin {
     const baseResources =
       this.serverless.service.provider.compiledCloudFormationTemplate;
 
-    const awsInfo = this.serverless.pluginManager.plugins.find(
-      (plugin: Plugin) => plugin.constructor.name === "AwsInfo"
-    ) as any;
+    // const awsInfo = this.serverless.pluginManager.plugins.find(
+    //   (plugin: Plugin) => plugin.constructor.name === 'AwsInfo',
+    // ) as any;
 
-    const templateRoot = path.resolve(__dirname, "..", "resource-template");
+    const templateRoot = path.resolve(__dirname, '..', 'resource-template');
 
     const template = new ConfigTemplate(this.serverless, {
       templateRoot,
-      configKey: "service.custom.withCloudFront",
+      configKey: 'service.custom.withCloudFront',
     });
     const [resources, cnameDomain] = template.prepareResources();
     this.cnameDomain = cnameDomain;
@@ -43,7 +50,7 @@ export class ServerlessWithCloudFrontPlugin {
 
   printSummary() {
     const awsInfo = this.serverless.pluginManager.plugins.find(
-      (plugin: Plugin) => plugin.constructor.name === "AwsInfo"
+      (plugin: Plugin) => plugin.constructor.name === 'AwsInfo',
     ) as any;
 
     if (!awsInfo || !awsInfo.gatheredData) {
@@ -52,14 +59,16 @@ export class ServerlessWithCloudFrontPlugin {
 
     const outputs = awsInfo.gatheredData.outputs;
     const apiDistributionDomain = _.find(outputs, (output: any) => {
-      return output.OutputKey === "ApiDistribution";
+      return output.OutputKey === 'ApiDistribution';
     });
 
     if (!apiDistributionDomain || !apiDistributionDomain.OutputValue) {
       return;
     }
 
-    log(chalk.yellow("CloudFront domain name"));
-    log(`${apiDistributionDomain.OutputValue} (CNAME: ${this.cnameDomain})`);
+    this.injects.log(chalk.yellow('CloudFront domain name'));
+    this.injects.log(
+      `${apiDistributionDomain.OutputValue} (CNAME: ${this.cnameDomain})`,
+    );
   }
 }
