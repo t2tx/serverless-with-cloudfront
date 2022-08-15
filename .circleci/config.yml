@@ -10,6 +10,9 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
+      - lint:
+          command: yarn lint
+          name: Linter
       - run:
           command: yarn build
           name: Build app
