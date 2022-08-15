@@ -49,12 +49,31 @@ export class ConfigTemplate {
     this.prepareCompress(distributionConfig);
     this.prepareMinimumProtocolVersion(distributionConfig);
 
+    this.prepareRoute53((resources as any).Resources);
+
     const cnameDomain = this.getConfig("domain", "-");
 
     return [resources, cnameDomain];
   }
 
   // ----------- private -------------
+  private prepareRoute53(resources: any) {
+    const hostedZoneId = this.getConfig("hostedZoneId", null);
+    const cnameDomain = this.getConfig("domain", null);
+
+    console.log(hostedZoneId, cnameDomain);
+
+    if (!(hostedZoneId && cnameDomain)) {
+      delete resources.DistributionDNSName;
+      return;
+    }
+
+    resources.DistributionDNSName.Properties.HostedZoneId = hostedZoneId;
+    const record = resources.DistributionDNSName.Properties.RecordSets[0];
+
+    record.Name = cnameDomain;
+  }
+
   private prepareLogging(distributionConfig: any) {
     const loggingBucket = this.getConfig("logging.bucket", null);
 
