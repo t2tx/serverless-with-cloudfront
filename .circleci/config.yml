@@ -10,7 +10,7 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - lint:
+      - run:
           command: yarn lint
           name: Linter
       - run:
