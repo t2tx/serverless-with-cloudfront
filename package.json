@@ -1,6 +1,6 @@
 {
   "name": "serverless-with-cloudfront",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CloudFront distribution in front of your http api gateway",
   "main": "dist/index.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "url": "https://github.com/t2tx/serverless-with-cloudfront"
   },
   "dependencies": {
+    "chalk": "2.4.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   }
