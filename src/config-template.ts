@@ -88,7 +88,7 @@ export class ConfigTemplate {
     const domain = this.getConfig('domain', null);
 
     if (domain !== null) {
-      distributionConfig.Aliases = Array.isArray(domain) ? domain : [domain];
+      distributionConfig.Aliases = domain;
     } else {
       delete distributionConfig.Aliases;
     }
@@ -110,15 +110,10 @@ export class ConfigTemplate {
   }
 
   private prepareHeaders(distributionConfig: any) {
-    const forwardHeaders = this.getConfig('headers', 'none');
+    const forwardHeaders = this.getConfig('headers', []);
 
-    if (Array.isArray(forwardHeaders)) {
-      distributionConfig.DefaultCacheBehavior.ForwardedValues.Headers =
-        forwardHeaders;
-    } else {
-      distributionConfig.DefaultCacheBehavior.ForwardedValues.Headers =
-        forwardHeaders === 'none' ? [] : ['*'];
-    }
+    distributionConfig.DefaultCacheBehavior.ForwardedValues.Headers =
+      forwardHeaders;
   }
 
   private prepareQueryString(distributionConfig: any) {

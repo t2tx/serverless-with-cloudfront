@@ -1,6 +1,6 @@
 {
   "name": "serverless-with-cloudfront",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "CloudFront distribution in front of your http api gateway",
   "main": "dist/index.js",
   "scripts": {
@@ -33,5 +33,15 @@
     "chalk": "2.4.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
-  }
+  },
+  "keywords": [
+    "serverless",
+    "serverless plugin",
+    "cloudfront",
+    "aws",
+    "aws api gateway v2",
+    "amazon web services",
+    "serverless.com",
+    "route 53"
+  ]
 }
