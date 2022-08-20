@@ -88,7 +88,7 @@ export class ConfigTemplate {
     const domain = this.getConfig('domain', null);
 
     if (domain !== null) {
-      distributionConfig.Aliases = domain;
+      distributionConfig.Aliases = [domain];
     } else {
       delete distributionConfig.Aliases;
     }
