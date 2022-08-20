@@ -1,13 +1,7 @@
-# Welcome to serverless. Read the docs
-# https://serverless.com/framework/docs/
-
-# Serverless.yml is the configuration the CLI
-# uses to deploy your code to your provider of choice
-
 # The `service` block is the name of the service
 service: sample
 
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 plugins:
   - serverless-with-cloudfront
@@ -20,19 +14,24 @@ provider:
 
 custom:
   withCloudFront:
-    type: http
-    # domain: with-cloud-front.example.com
-    # certificate: "000000"
+    type: http # for HTTP Api Gateway
+    # hostedZoneId: 11223344
+    # domain: my-custom-domain.com
+    # certificate: arn:aws:acm:us-east-1:000000000000:certificate/00000000-1111-2222-3333-444444444444
     headers:
       - Accept
-      - Accept-Charset
       - Accept-Encoding
       - Accept-Language
       - Authorization
+    # cookies: 'all'
+    # querystring: 'all'
+    # waf: 00000000-0000-0000-0000-000000000000
+    # compress: true
+    # minimumProtocolVersion: 'protocol version'
+    # priceClass: 'PriceClass_All'
     # logging:
-    # bucket: "000000"
-    tags:
-      PROJECT: "project"
+    #   bucket: my-bucket.s3.amazonaws.com
+    #   prefix: my-prefix
 
 # The `functions` block defines what code to deploy
 functions:
@@ -40,4 +39,4 @@ functions:
     handler: handler.helloWorld
     # The `events` block defines how to trigger the handler.helloWorld code
     events:
-      - httpApi: "*"
+      - httpApi: '*'
