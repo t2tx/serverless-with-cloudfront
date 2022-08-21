@@ -28,7 +28,7 @@ $ yarn add -D serverless-with-cloudfront
 
 # Usage
 
-## A [sample](./sample/)
+## A [sample](./sample/http-api/)
 
 > Add to `plugins` section
 

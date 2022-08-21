@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless-with-cloudfront": "../"
+    "serverless-with-cloudfront": "../../"
   }
 }
