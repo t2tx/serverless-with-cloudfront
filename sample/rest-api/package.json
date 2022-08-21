@@ -1,14 +1,15 @@
 {
-  "name": "sample",
+  "name": "sample-rest",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "deploy": "rm -rf .serverless && sls deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless-with-cloudfront": "../"
+    "serverless-with-cloudfront": "../../"
   }
 }

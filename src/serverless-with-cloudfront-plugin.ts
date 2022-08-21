@@ -18,7 +18,7 @@ export class ServerlessWithCloudFrontPlugin {
 
   constructor(
     private readonly serverless: Serverless,
-    private readonly _: Serverless.Options,
+    private readonly options: Serverless.Options,
     private injects: Injects,
   ) {
     this.hooks = {
@@ -38,7 +38,7 @@ export class ServerlessWithCloudFrontPlugin {
 
     const templateRoot = path.resolve(__dirname, '..', 'resource-template');
 
-    const template = new ConfigTemplate(this.serverless, {
+    const template = new ConfigTemplate(this.serverless, this.options, {
       templateRoot,
       configKey: 'service.custom.withCloudFront',
     });

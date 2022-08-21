@@ -1,0 +1,49 @@
+# The `service` block is the name of the service
+service: sample-rest
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-with-cloudfront
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-northeast-1
+
+custom:
+  withCloudFront:
+    type: rest # for REST Api Gateway
+    # hostedZoneId: 11223344
+    # domain: my-custom-domain.com
+    # certificate: arn:aws:acm:us-east-1:000000000000:certificate/00000000-1111-2222-3333-444444444444
+    headers:
+      - Accept
+      - Accept-Encoding
+      - Accept-Language
+      - Authorization
+    # cookies: 'all'
+    # querystring: 'all'
+    # waf: 00000000-0000-0000-0000-000000000000
+    # compress: true
+    # minimumProtocolVersion: 'protocol version'
+    # priceClass: 'PriceClass_All'
+    # logging:
+    #   bucket: my-bucket.s3.amazonaws.com
+    #   prefix: my-prefix
+
+# The `functions` block defines what code to deploy
+functions:
+  helloWorld:
+    handler: handler.helloWorld
+    # The `events` block defines how to trigger the handler.helloWorld code
+    events:
+      - http:
+          cors: true
+          path: '/'
+          method: any
+      - http:
+          cors: true
+          path: '{proxy+}'
+          method: any

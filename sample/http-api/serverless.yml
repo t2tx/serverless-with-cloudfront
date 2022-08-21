@@ -1,5 +1,5 @@
 # The `service` block is the name of the service
-service: sample
+service: sample-http
 
 frameworkVersion: '3'
 
