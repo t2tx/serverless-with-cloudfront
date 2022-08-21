@@ -5,19 +5,23 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - Id: HttpApiOrg
+          - Id: ApiGateway
             DomainName:
-              Fn::Select:
-                [2, Fn::Split: ['/', Fn::GetAtt: [HttpApi, ApiEndpoint]]]
+              Fn::Join:
+                - ''
+                - - Ref: ApiGatewayRestApi
+                  - '.execute-api.'
+                  - Ref: AWS::Region
+                  - '.amazonaws.com'
             CustomOriginConfig:
               HTTPPort: '80'
               HTTPSPort: '443'
               OriginProtocolPolicy: https-only
               OriginSSLProtocols: ['TLSv1', 'TLSv1.1', 'TLSv1.2']
-            OriginPath: ''
+            OriginPath: '/dev'
         Enabled: true
         HttpVersion: http2
-        Comment: cdn for api gateway v2
+        Comment: cdn for api gateway
         Aliases:
           - domain.tld
         PriceClass: PriceClass_All
@@ -40,7 +44,7 @@ Resources:
               Forward: all
           MinTTL: '0'
           DefaultTTL: '0'
-          TargetOriginId: HttpApiOrg
+          TargetOriginId: ApiGateway
           ViewerProtocolPolicy: redirect-to-https
         CustomErrorResponses: []
         ViewerCertificate:
