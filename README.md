@@ -10,7 +10,11 @@
 
 Automatically properly configured AWS CloudFront distribution that routes traffic to follow resource.
 
-- HTTP api gateway
+- [HTTP api gateway][serverless-http-gateway]
+- [REST api gateway][serverless-rest-gateway]
+
+[serverless-http-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/http-api
+[serverless-rest-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/apigateway
 
 Automatically config custom domain and create Route 53 records
 
@@ -28,7 +32,9 @@ $ yarn add -D serverless-with-cloudfront
 
 # Usage
 
-## A [sample](./sample/http-api/)
+## Samples
+
+### A [HTTP api gateway sample](./sample/http-api/)
 
 > Add to `plugins` section
 
@@ -46,7 +52,7 @@ custom:
   ...
 ```
 
-- The sample serverless yaml
+- The [HTTP api gateway][serverless-http-gateway] sample serverless yaml
 
 ```yaml
 # The `service` block is the name of the service
@@ -93,11 +99,14 @@ functions:
       - httpApi: '*'
 ```
 
+### A [REST api gateway sample](./sample/rest-api/)
+
 ## Configuration
 
 | field                  | must | default            | -                                                                                 |
 | ---------------------- | ---- | ------------------ | --------------------------------------------------------------------------------- |
-| type                   | \*   | -                  | Fixed value: _`http`_                                                             |
+| type                   | \*   | -                  | [_`http`_][serverless-http-gateway]                                               |
+|                        |      |                    | [_`rest`_][serverless-rest-gateway]                                               |
 | hostedZoneId           |      |                    | The Route 53 Hosted zone ID                                                       |
 | domain                 |      |                    | The custom domain name                                                            |
 | certificate            |      |                    | The certificate of custom domain name                                             |
