@@ -17,7 +17,7 @@ export class ConfigTemplate {
   ) {}
 
   prepareResources() {
-    const handlers: Record<string, Function> = {
+    const handlers: Record<string, () => any> = {
       http: this.handleHttpApi.bind(this),
       rest: this.handleRestApi.bind(this),
     };
