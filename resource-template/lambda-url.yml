@@ -55,7 +55,18 @@ Resources:
           Bucket: ''
           Prefix: ''
         WebACLId: waf-id
-
+  DistributionDNSName:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneId: hostedzone.tld
+      RecordSets:
+        - Name: domain.tld
+          Type: A
+          AliasTarget:
+            DNSName:
+              Fn::GetAtt: [ApiDistribution, DomainName]
+            HostedZoneId: Z2FDTNDATAQYW2
+            EvaluateTargetHealth: false
 Outputs:
   ApiDistribution:
     Value:
