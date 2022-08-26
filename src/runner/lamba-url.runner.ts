@@ -9,17 +9,14 @@ export interface Option {
   templateFile: string;
 }
 
-export class RestApiRunner {
+export class LambdaUrlRunner {
   helper: TemplateHelper;
 
   constructor(
     private readonly serverless: Serverless,
-    private readonly slsOptions: Serverless.Options,
     private readonly option: Option,
   ) {
-    this.helper = new TemplateHelper(serverless, {
-      configKey: option.configKey,
-    });
+    this.helper = new TemplateHelper(serverless, {configKey: option.configKey});
   }
 
   exec() {
@@ -52,7 +49,7 @@ export class RestApiRunner {
     return [resources, cnameDomain];
   }
 
-  // -------- private --------
+  // ----------- private -------------
   private prepareRoute53(resources: any) {
     const hostedZoneId = this.getConfig('hostedZoneId', null);
     const cnameDomain = this.getConfig('domain', null);
@@ -81,7 +78,7 @@ export class RestApiRunner {
     }
   }
 
-  prepareDomain(distributionConfig: any) {
+  private prepareDomain(distributionConfig: any) {
     const domain = this.getConfig('domain', null);
 
     if (domain !== null) {
@@ -97,7 +94,15 @@ export class RestApiRunner {
   }
 
   prepareOrigins(distributionConfig: any) {
-    distributionConfig.Origins[0].OriginPath = `/${this.slsOptions.stage}`;
+    let lambda = this.getConfig('lambda', '');
+    if (!lambda) {
+      throw new Error('lambda must be set');
+    }
+
+    lambda = lambda.charAt(0).toUpperCase() + lambda.slice(1);
+    distributionConfig.Origins[0].DomainName['Fn::Select'][1]['Fn::Split'][1][
+      'Fn::GetAtt'
+    ][0] = `${lambda}LambdaFunctionUrl`;
   }
 
   prepareCookies(distributionConfig: any) {
@@ -173,7 +178,7 @@ export class RestApiRunner {
     }
   }
 
-  private getConfig(field: string, defaultValue: any = null) {
+  getConfig(field: string, defaultValue: any = null) {
     return this.helper.getConfig(field, defaultValue);
   }
 }

@@ -3,6 +3,7 @@ import Serverless from 'serverless';
 import path from 'path';
 import {HttpApiRunner} from './runner/http-api.runner';
 import {RestApiRunner} from './runner/rest-api.runner';
+import {LambdaUrlRunner} from './runner/lamba-url.runner';
 
 export interface Option {
   templateRoot: string;
@@ -20,6 +21,7 @@ export class ConfigTemplate {
     const handlers: Record<string, () => any> = {
       http: this.handleHttpApi.bind(this),
       rest: this.handleRestApi.bind(this),
+      lambda: this.handleLambdaUrl.bind(this),
     };
 
     const templateType = this.getConfig('type');
@@ -31,6 +33,16 @@ export class ConfigTemplate {
   }
 
   // ----------- private -------------
+  private handleLambdaUrl() {
+    const filename = path.resolve(this.option.templateRoot, 'lambda-url.yml');
+    const runner = new LambdaUrlRunner(this.serverless, {
+      templateFile: filename,
+      configKey: this.option.configKey,
+    });
+
+    return runner.exec();
+  }
+
   private handleHttpApi() {
     const filename = path.resolve(this.option.templateRoot, 'http-api.yml');
     const runner = new HttpApiRunner(this.serverless, {

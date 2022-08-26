@@ -1,6 +1,6 @@
 {
   "name": "serverless-with-cloudfront",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "CloudFront distribution in front of your http api gateway",
   "main": "dist/index.js",
   "scripts": {
