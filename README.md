@@ -2,9 +2,9 @@
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/t2tx/serverless-with-cloudfront/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/t2tx/serverless-with-cloudfront/tree/main)
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
-[![npm version](https://badge.fury.io/js/serverless-with-cloudfront.svg)](https://badge.fury.io/js/serverless-httpapi-cloudfront)
+[![npm version](https://badge.fury.io/js/serverless-with-cloudfront.svg)](https://badge.fury.io/js/serverless-with-cloudfront)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/serverless-httpapi-cloudfront/master/LICENSE)
-[![npm downloads](https://img.shields.io/npm/dt/serverless-with-cloudfront.svg?style=flat)](https://www.npmjs.com/package/serverless-httpapi-cloudfront)
+[![npm downloads](https://img.shields.io/npm/dt/serverless-with-cloudfront.svg?style=flat)](https://www.npmjs.com/package/serverless-with-cloudfront)
 
 > A try to extend the project: https://github.com/Droplr/serverless-api-cloudfront
 
@@ -12,9 +12,11 @@ Automatically properly configured AWS CloudFront distribution that routes traffi
 
 - [HTTP api gateway][serverless-http-gateway]
 - [REST api gateway][serverless-rest-gateway]
+- [Lambda Url][serverless-lambda-url]
 
 [serverless-http-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/http-api
 [serverless-rest-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/apigateway
+[serverless-lambda-url]: https://www.serverless.com/blog/aws-lambda-function-urls-with-serverless-framework
 
 Automatically config custom domain and create Route 53 records
 
@@ -101,12 +103,33 @@ functions:
 
 ### A [REST api gateway sample](./sample/rest-api/)
 
+### A [Lambda Url sample](./sample//lambda-url/)
+
+> `lambda` must be set to the same name of target `function`
+
+> `function` must set `url` property
+
+```yaml
+custom:
+  withCloudFront:
+    type: lambda
+    lambda: helloWorld
+  ...
+
+functions:
+  helloWorld:
+    url: true
+    ...
+```
+
 ## Configuration
 
 | field                  | must | default            | -                                                                                 |
 | ---------------------- | ---- | ------------------ | --------------------------------------------------------------------------------- |
 | type                   | \*   | -                  | [_`http`_][serverless-http-gateway]                                               |
 |                        |      |                    | [_`rest`_][serverless-rest-gateway]                                               |
+|                        |      |                    | [_`lambda`_][serverless-lambda-url]                                               |
+| lambda                 | △    |                    | If the type is _`lambda`_, this field must be set to the target function name     |
 | hostedZoneId           |      |                    | The Route 53 Hosted zone ID                                                       |
 | domain                 |      |                    | The custom domain name                                                            |
 | certificate            |      |                    | The certificate of custom domain name                                             |
