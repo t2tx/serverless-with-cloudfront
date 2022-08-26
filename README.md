@@ -12,9 +12,11 @@ Automatically properly configured AWS CloudFront distribution that routes traffi
 
 - [HTTP api gateway][serverless-http-gateway]
 - [REST api gateway][serverless-rest-gateway]
+- [Lambda Url][serverless-lambda-url]
 
 [serverless-http-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/http-api
 [serverless-rest-gateway]: https://www.serverless.com/framework/docs/providers/aws/events/apigateway
+[serverless-lambda-url]: https://www.serverless.com/blog/aws-lambda-function-urls-with-serverless-framework
 
 Automatically config custom domain and create Route 53 records
 
@@ -103,7 +105,9 @@ functions:
 
 ### A [Lambda Url sample](./sample//lambda-url/)
 
-> Note: `lambda` must be set to the same name of target `function`
+> `lambda` must be set to the same name of target `function`
+
+> `function` must set `url` property
 
 ```yaml
 custom:
@@ -114,6 +118,7 @@ custom:
 
 functions:
   helloWorld:
+    url: true
     ...
 ```
 
@@ -123,6 +128,8 @@ functions:
 | ---------------------- | ---- | ------------------ | --------------------------------------------------------------------------------- |
 | type                   | \*   | -                  | [_`http`_][serverless-http-gateway]                                               |
 |                        |      |                    | [_`rest`_][serverless-rest-gateway]                                               |
+|                        |      |                    | [_`lambda`_][serverless-lambda-url]                                               |
+| lambda                 | △    |                    | If the type is _`lambda`_, this field must be set to the target function name     |
 | hostedZoneId           |      |                    | The Route 53 Hosted zone ID                                                       |
 | domain                 |      |                    | The custom domain name                                                            |
 | certificate            |      |                    | The certificate of custom domain name                                             |
